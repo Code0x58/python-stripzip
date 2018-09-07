@@ -1,7 +1,12 @@
 import argparse
 import mmap
 import os
+import sys
 from struct import Struct
+
+
+class NonZipFileError(ValueError):
+    """Raised when a given file does not appear to be a zip"""
 
 
 def _zero_zip_date_time(zip_):
@@ -34,12 +39,19 @@ def _zero_zip_date_time(zip_):
         central_directory_header_struct.pack_into(mm, offset, *values)
         offset += central_directory_header_struct.size + a + b + c
 
+    if offset == 0:
+        raise NonZipFileError(zip_.name)
+
 
 def cli(args=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("zips", nargs="+", type=argparse.FileType("r+b"))
 
     options = parser.parse_args(args)
-    for zip_ in options.zips:
-        _zero_zip_date_time(zip_)
-        zip_.close()
+    try:
+        for zip_ in options.zips:
+            _zero_zip_date_time(zip_)
+            zip_.close()
+    except NonZipFileError as e:
+        sys.stderr.write("Invalid file format: %r\n" % e.args[0])
+        sys.exit(1)
