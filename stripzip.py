@@ -45,7 +45,7 @@ def _zero_zip_date_time(zip_):
 
 def cli(args=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument("zips", nargs="+", type=argparse.FileType("r+b"))
+    parser.add_argument("zips", metavar="zip", nargs="+", type=argparse.FileType("r+b"))
 
     options = parser.parse_args(args)
     try:
