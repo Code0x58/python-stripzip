@@ -1,2 +1,4 @@
-.eggs/
 **/__pycache__/
+*.egg-info/
+.eggs/
+dist/
