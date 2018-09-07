@@ -20,4 +20,5 @@ setup(
     url='https://github.com/Code0x58/python-stripzip/',
     author="Oliver Bristow",
     author_email='github+pypi@oliverbristow.co.uk',
+    long_description=long_description,
 )
