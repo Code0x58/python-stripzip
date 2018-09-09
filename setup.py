@@ -1,8 +1,8 @@
 import codecs
 from os import path
+from textwrap import dedent
 
 from setuptools import setup
-
 
 here = path.abspath(path.dirname(__file__))
 
@@ -24,4 +24,24 @@ setup(
     setup_requires=["setuptools_scm", "wheel"],
     url="https://github.com/Code0x58/python-stripzip/",
     use_scm_version=True,
+    classifiers=dedent(
+        """
+        Development Status :: 5 - Production/Stable
+        Intended Audience :: Developers
+        Topic :: Software Development
+        License :: OSI Approved :: MIT License
+        Programming Language :: Python :: 2
+        Programming Language :: Python :: 2.7
+        Programming Language :: Python :: 3
+        Programming Language :: Python :: 3.3
+        Programming Language :: Python :: 3.4
+        Programming Language :: Python :: 3.5
+        Programming Language :: Python :: 3.6
+        Programming Language :: Python :: 3.7
+        Programming Language :: Python :: Implementation :: CPython
+        Programming Language :: Python :: Implementation :: PyPy
+    """
+    )
+    .strip()
+    .split("\n"),
 )
