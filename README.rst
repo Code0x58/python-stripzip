@@ -1,19 +1,28 @@
-`PyPi <https://pypi.org/project/python-stripzip/>`__
-
 python-stripzip
-=========
+===============
 
 This package provides a ``stripzip`` script which will set all of the
 date/times in given zips to *1980-01-01 00:00:00* - the lowest valid
 value available in zips.
 
 The purpose is to zip archive based builds deterministic, e.g. python wheels,
-AWS lambdas.
+AWS lambdas. There are no extra dependancies, and the package is available
+on `PyPi <https://pypi.org/project/python-stripzip/>`__ which is probably the
+only advantage of this at the moment.
 
     usage: stripzip [-h] zip [zip ...]
+
+Installation
+------------
+You can pick one of::
+
+    pipsi install python-stripzip
+    pip install --user python-stripzip
+    git clone git@github.com:Code0x58/python-stripzip.git && cd python-stripzip && python setup.py install
 
 See also
 --------
 
 * `strip-nodeterminism <https://reproducible-builds.org/tools/>`__ - tool written in Perl and released as a Debian package; works on various archive formats
 * `stripzip <https://github.com/KittyHawkCorp/stripzip/>`__ - tool written in C without binary releases; currently wipes out more zip metadata
+* ``SOURCE_DATE_EPOCH=315532800 python setup.py bdist_wheel``
