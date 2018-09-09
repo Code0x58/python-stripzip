@@ -23,7 +23,7 @@ def _zero_zip_date_time(zip_):
         if signature_struct.unpack_from(mm, offset) != (0x04034b50,):
             break
         values = list(local_file_header_struct.unpack_from(mm, offset))
-        signature, _, _, _, time, date, _, a, _, b, c = values
+        _, _, _, _, _, _, _, a, _, b, c = values
         values[4] = 0
         values[5] = 0x21
         local_file_header_struct.pack_into(mm, offset, *values)
@@ -33,7 +33,7 @@ def _zero_zip_date_time(zip_):
         if signature_struct.unpack_from(mm, offset) != (0x02014b50,):
             break
         values = list(central_directory_header_struct.unpack_from(mm, offset))
-        signature, _, _, _, _, time, date, _, _, _, a, b, c, _, _, _, _ = values
+        _, _, _, _, _, _, _, _, _, _, a, b, c, _, _, _, _ = values
         values[5] = 0
         values[6] = 0x21
         central_directory_header_struct.pack_into(mm, offset, *values)
