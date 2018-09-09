@@ -1,4 +1,4 @@
-|Build Status| |Codacy Rating|
+|PyPi Package| |Build Status| |Codacy Rating|
 
 python-stripzip
 ===============
@@ -33,3 +33,5 @@ See also
    :target: https://travis-ci.org/Code0x58/python-stripzip
 .. |Codacy Rating| image:: https://api.codacy.com/project/badge/Grade/7468a12faccb4c1497575d607b097ec6
    :target: https://www.codacy.com/app/evilumbrella-github/python-stripzip?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Code0x58/python-stripzip&amp;utm_campaign=Badge_Grade
+.. |PyPi Package| image:: https://badge.fury.io/py/python-stripzip.svg
+   :target: https://pypi.org/project/python-stripzip/
