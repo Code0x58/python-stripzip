@@ -1,3 +1,5 @@
+|Build Status| |Codacy Rating|
+
 python-stripzip
 ===============
 
@@ -26,3 +28,8 @@ See also
 * `strip-nodeterminism <https://reproducible-builds.org/tools/>`__ - tool written in Perl and released as a Debian package; works on various archive formats
 * `stripzip <https://github.com/KittyHawkCorp/stripzip/>`__ - tool written in C without binary releases; currently wipes out more zip metadata
 * ``SOURCE_DATE_EPOCH=315532800 python setup.py bdist_wheel``
+
+.. |Build Status| image:: https://travis-ci.org/Code0x58/python-stripzip.svg?branch=master
+   :target: https://travis-ci.org/Code0x58/python-stripzip
+.. |Codacy Rating| image:: https://api.codacy.com/project/badge/Grade/7468a12faccb4c1497575d607b097ec6
+   :target: https://www.codacy.com/app/evilumbrella-github/python-stripzip?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Code0x58/python-stripzip&amp;utm_campaign=Badge_Grade
