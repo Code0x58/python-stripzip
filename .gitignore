@@ -2,3 +2,5 @@
 *.egg-info/
 .eggs/
 dist/
+venv/
+.coverage
