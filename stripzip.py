@@ -33,7 +33,7 @@ def _zero_zip_date_time(zip_):
 
             if header_id in (EXTENDED_TIME_DATA, UNIX_EXTRA_DATA):
                 values[0] = STRIPZIP_OPTION_HEADER
-                for i in xrange(2, len(values)):
+                for i in range(2, len(values)):
                     values[i] = 0xff
                 extra_struct.pack_into(mm, offset, *values)
             elif header_id != STRIPZIP_OPTION_HEADER:
