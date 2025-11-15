@@ -9,6 +9,9 @@ class NonZipFileError(ValueError):
     """Raised when a given file does not appear to be a zip"""
 
 
+ZIP64_EXTRA_DATA_ID = 0x0001
+
+
 def _zero_zip_date_time(zip_):
     def purify_extra_data(mm, offset, length):
         extra_header_struct = Struct("<HH")
@@ -36,12 +39,34 @@ def _zero_zip_date_time(zip_):
                 for i in range(2, len(values)):
                     values[i] = 0xff
                 extra_struct.pack_into(mm, offset, *values)
+            elif header_id == ZIP64_EXTRA_DATA_ID:
+                # The Zip64 block must stay intact so the parser can recover
+                # compressed/uncompressed sizes stored there for large files.
+                pass
             elif header_id != STRIPZIP_OPTION_HEADER:
                 return False
- 
+
             offset += extra_header_struct.size + header_length
 
         return True
+
+    def _read_zip64_sizes(mm, offset, length, compressed_size, uncompressed_size):
+        """Return actual compressed/uncompressed sizes from a Zip64 extra field."""
+        extra_header_struct = Struct("<HH")
+        end = offset + length
+        while offset < end:
+            header_id, header_length = extra_header_struct.unpack_from(mm, offset)
+            offset += extra_header_struct.size
+            if header_id == ZIP64_EXTRA_DATA_ID:
+                data_offset = offset
+                if uncompressed_size == 0xFFFFFFFF:
+                    uncompressed_size = int.from_bytes(mm[data_offset:data_offset + 8], "little")
+                    data_offset += 8
+                if compressed_size == 0xFFFFFFFF:
+                    compressed_size = int.from_bytes(mm[data_offset:data_offset + 8], "little")
+                break
+            offset += header_length
+        return compressed_size, uncompressed_size
 
     FILE_HEADER_SIGNATURE = 0x04034b50
     CENDIR_HEADER_SIGNATURE = 0x02014b50
@@ -85,15 +110,33 @@ def _zero_zip_date_time(zip_):
         if signature_struct.unpack_from(mm, offset) != (FILE_HEADER_SIGNATURE,):
             break
         values = list(local_file_header_struct.unpack_from(mm, offset))
-        _, _, _, _, _, _, _, compressed_size, _, name_length, extra_field_length = values
+        (
+            _,
+            _,
+            _,
+            _,
+            _,
+            _,
+            _,
+            compressed_size,
+            uncompressed_size,
+            name_length,
+            extra_field_length,
+        ) = values
         # reset last_mod_time
         values[4] = 0
         # reset last_mod_date
         values[5] = 0x21
         local_file_header_struct.pack_into(mm, offset, *values)
-        offset += local_file_header_struct.size + compressed_size + name_length + extra_field_length
+        offset += local_file_header_struct.size + name_length
+        extra_offset = offset
+        offset += extra_field_length
         if extra_field_length != 0:
-            purify_extra_data(mm, offset-extra_field_length-compressed_size, extra_field_length)
+            purify_extra_data(mm, extra_offset, extra_field_length)
+            compressed_size, uncompressed_size = _read_zip64_sizes(
+                mm, extra_offset, extra_field_length, compressed_size, uncompressed_size
+            )
+        offset += compressed_size
 
     while offset < archive_size:
         if signature_struct.unpack_from(mm, offset) != (CENDIR_HEADER_SIGNATURE,):
