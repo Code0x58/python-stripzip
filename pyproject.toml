@@ -41,9 +41,9 @@ test = [
 
 [project.scripts]
 stripzip = "stripzip:cli"
-license-files = ["LICENCE.md"]
 
 [tool.setuptools]
 py-modules = ["stripzip"]
+license-files = ["LICENCE.md"]
 
 [tool.setuptools_scm]
