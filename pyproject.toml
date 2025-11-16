@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=77", "setuptools_scm>=7", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python-stripzip"
+description = "strip zip timestamps for reproducible builds"
+readme = "README.rst"
+requires-python = ">=3.8"
+license = "MIT"
+license-files = ["LICENCE.md"]
+authors = [
+    {name = "Oliver Bristow", email = "github+pypi@oliverbristow.co.uk"},
+]
+keywords = ["zipfile", "reproducible-builds"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development",
+    "Topic :: System :: Archiving :: Packaging",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = []
+dynamic = ["version"]
+
+[project.optional-dependencies]
+test = [
+    "pytest~=5.4.2",
+    "pytest-cov~=2.8.1",
+]
+
+[project.scripts]
+stripzip = "stripzip:cli"
+
+[tool.setuptools]
+py-modules = ["stripzip"]
+
+[tool.setuptools_scm]
