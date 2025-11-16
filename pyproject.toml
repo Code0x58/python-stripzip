@@ -7,8 +7,7 @@ name = "python-stripzip"
 description = "strip zip timestamps for reproducible builds"
 readme = "README.rst"
 requires-python = ">=3.8"
-license = "MIT"
-license-files = ["LICENCE.md"]
+license = {text = "MIT"}
 authors = [
     {name = "Oliver Bristow", email = "github+pypi@oliverbristow.co.uk"},
 ]
@@ -42,6 +41,7 @@ test = [
 
 [project.scripts]
 stripzip = "stripzip:cli"
+license-files = ["LICENCE.md"]
 
 [tool.setuptools]
 py-modules = ["stripzip"]
